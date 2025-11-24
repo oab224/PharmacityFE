@@ -1,7 +1,7 @@
-import React from 'react';
-import { Users } from 'lucide-react';
-import { PrescriptionRecord } from '../types';
-import { formatDate } from '../utils/formatters';
+import React from "react";
+import { Users } from "lucide-react";
+import { PrescriptionRecord } from "../types";
+import { formatDate } from "../utils/formatters";
 
 interface HistorySectionProps {
   history: PrescriptionRecord[];
@@ -21,11 +21,13 @@ const HistorySection: React.FC<HistorySectionProps> = ({ history }) => {
             <div key={idx} className="history-item">
               <div className="history-time">{formatDate(item.timestamp)}</div>
               <div className="history-text">"{item.text}"</div>
-              {item.prescription_info?.drugs?.length > 0 && (
+              {item.prescription_info?.length > 0 && (
                 <div className="history-drugs">
-                  {item.prescription_info.drugs.map(d => 
-                    `${d.name}: ${d.quantity || '?'} ${d.unit || '?'}`
-                  ).join(' • ')}
+                  {item.prescription_info
+                    .map(
+                      (d) => `${d.name}: ${d.quantity || "?"} ${d.unit || "?"}`
+                    )
+                    .join(" • ")}
                 </div>
               )}
             </div>
@@ -37,5 +39,5 @@ const HistorySection: React.FC<HistorySectionProps> = ({ history }) => {
     </div>
   );
 };
-                            
+
 export default HistorySection;
