@@ -1,6 +1,7 @@
 import React from "react";
 import { Package, AlertCircle, CheckCircle, X } from "lucide-react";
 import { PrescriptionInfo } from "../types";
+import { Button } from "../ui/button";
 
 interface ResultSectionProps {
   transcript: string;

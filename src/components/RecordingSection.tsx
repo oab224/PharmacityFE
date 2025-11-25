@@ -1,5 +1,5 @@
-import React from 'react';
-import { Mic, Square, Loader } from 'lucide-react';
+import React from "react";
+import { Mic, Square, Loader } from "lucide-react";
 
 interface RecordingSectionProps {
   isRecording: boolean;
@@ -33,21 +33,27 @@ const RecordingSection: React.FC<RecordingSectionProps> = ({
         <button
           onClick={isRecording ? stopRecording : startRecording}
           disabled={isProcessing}
-          className={`mic-button ${isRecording ? 'recording' : ''} ${isProcessing ? 'disabled' : ''}`}
+          className={`mic-button ${isRecording ? "recording" : ""} ${
+            isProcessing ? "disabled" : ""
+          }`}
         >
           {isRecording ? <Square size={64} /> : <Mic size={64} />}
         </button>
 
-        <div className={`status ${isRecording ? 'recording' : isProcessing ? 'processing' : ''}`}>
+        <div
+          className={`status ${
+            isRecording ? "recording" : isProcessing ? "processing" : ""
+          }`}
+        >
           {isProcessing ? (
             <div className="processing-status">
               <Loader className="spinner" size={24} />
               Đang xử lý...
             </div>
           ) : isRecording ? (
-            'Đang ghi âm...'
+            "Đang ghi âm..."
           ) : (
-            'Nhấn để bắt đầu'
+            "Nhấn để bắt đầu"
           )}
         </div>
 
@@ -61,7 +67,7 @@ const RecordingSection: React.FC<RecordingSectionProps> = ({
       </div>
 
       <div className="guide-box">
-        <div className="guide-title">💡 Hướng dẫn:</div>
+        <div className="guide-title">Hướng dẫn:</div>
         <ul className="guide-list">
           <li>Nhấn micro để ghi âm</li>
           <li>Nói rõ: "Paracetamol 10 viên BN số 5"</li>

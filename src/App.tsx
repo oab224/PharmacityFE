@@ -6,6 +6,8 @@ import ResultSection from "./components/ResultSection";
 import StatsSection from "./components/StatsSection";
 import HistorySection from "./components/HistorySection";
 import { formatTime } from "./utils/formatters";
+import { Routes, Route } from "react-router-dom";
+import Login from "./pages/Login";
 import {
   TranscriptionResponse,
   PrescriptionInfo,
@@ -13,6 +15,7 @@ import {
   Stats,
   ConnectionStatus,
 } from "./types";
+import Register from "./pages/Signup";
 
 const API_URL = "http://localhost:5000";
 
@@ -189,44 +192,57 @@ const App: React.FC = () => {
   };
 
   return (
-    <div className="app">
-      {/* Connection Status */}
-      <div className="connection-status">
-        <div
-          className={`status-dot ${
-            connectionStatus === "connected" ? "connected" : "disconnected"
-          }`}
-        />
-        <span className="status-text">
-          {connectionStatus === "connected" ? "Đã kết nối" : "Mất kết nối"}
-        </span>
-      </div>
+    <Routes>
+      <Route path="/login" element={<Login />} />
+      <Route path="/sign-up" element={<Register />} />
+      {/* Trang Home - App hiện tại */}
+      <Route
+        path="/"
+        element={
+          <div className="app">
+            <div className="connection-status">
+              <div
+                className={`status-dot ${
+                  connectionStatus === "connected"
+                    ? "connected"
+                    : "disconnected"
+                }`}
+              />
+              <span className="status-text">
+                {connectionStatus === "connected"
+                  ? "Đã kết nối"
+                  : "Mất kết nối"}
+              </span>
+            </div>
 
-      <div className="container">
-        <Header />
-        <div className="main-grid">
-          <RecordingSection
-            isRecording={isRecording}
-            isProcessing={isProcessing}
-            recordingTime={recordingTime}
-            transcript={transcript}
-            startRecording={startRecording}
-            stopRecording={stopRecording}
-            clearCurrent={clearCurrent}
-            formatTime={formatTime}
-          />
-          <ResultSection
-            transcript={transcript}
-            prescriptionInfo={prescriptionInfo}
-            warnings={warnings}
-            savePrescription={savePrescription}
-            clearCurrent={clearCurrent}
-          />
-        </div>
-        <StatsSection stats={stats} />
-        <HistorySection history={history} />
-      </div>
-    </div>
+            <div className="container">
+              <Header />
+              <div className="main-grid">
+                <RecordingSection
+                  isRecording={isRecording}
+                  isProcessing={isProcessing}
+                  recordingTime={recordingTime}
+                  transcript={transcript}
+                  startRecording={startRecording}
+                  stopRecording={stopRecording}
+                  clearCurrent={clearCurrent}
+                  formatTime={formatTime}
+                />
+                <ResultSection
+                  transcript={transcript}
+                  prescriptionInfo={prescriptionInfo}
+                  warnings={warnings}
+                  savePrescription={savePrescription}
+                  clearCurrent={clearCurrent}
+                />
+              </div>
+              <StatsSection stats={stats} />
+              <HistorySection history={history} />
+            </div>
+          </div>
+        }
+      />
+    </Routes>
   );
 };
 
