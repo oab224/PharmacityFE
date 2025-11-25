@@ -41,23 +41,22 @@ const ResultSection: React.FC<ResultSectionProps> = ({
                 )} */}
 
               {/* Drugs */}
-              {prescriptionInfo && (
+              {prescriptionInfo.map((drug, idx) => (
                 <div className="info-item drugs-info">
-                  <strong>💊 Thuốc kê đơn:</strong>
-                  {prescriptionInfo.map((drug, idx) => (
-                    <div key={idx} className="drug-item">
-                      <div className="drug-name">{drug.name}</div>
-                      <div className="drug-dosage">{drug.dosage}</div>
-                      <div className="drug-details">
-                        Số lượng: {drug.quantity || "?"} {drug.unit || "?"}
-                        {drug.dosage && (
-                          <span className="drug-dosage"> ({drug.dosage})</span>
-                        )}
-                      </div>
+                  <strong> Thuốc kê đơn:</strong>
+
+                  <div key={idx} className="drug-item">
+                    <div className="drug-name">{drug.name}</div>
+                    <div className="drug-dosage">{drug.dosage}</div>
+                    <div className="drug-details">
+                      Số lượng: {drug.quantity || "?"} {drug.unit || "?"}
+                      {drug.dosage && (
+                        <span className="drug-dosage"> ({drug.dosage})</span>
+                      )}
                     </div>
-                  ))}
+                  </div>
                 </div>
-              )}
+              ))}
 
               {/* Warnings */}
               {warnings && warnings.length > 0 && (
@@ -75,15 +74,15 @@ const ResultSection: React.FC<ResultSectionProps> = ({
               )}
 
               {/* Action Buttons */}
-              <div className="action-buttons">
-                <button onClick={savePrescription} className="btn btn-success">
+              <div className="action-buttons justify-end">
+                <Button onClick={savePrescription} variant="default">
                   <CheckCircle size={20} />
                   Lưu Đơn
-                </button>
-                <button onClick={clearCurrent} className="btn btn-secondary">
+                </Button>
+                <Button onClick={clearCurrent} variant="secondary">
                   <X size={20} />
                   Hủy
-                </button>
+                </Button>
               </div>
             </div>
           )}
