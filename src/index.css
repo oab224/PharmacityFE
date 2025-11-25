@@ -859,15 +859,15 @@ body {
 }
 
 .info-item {
-  background: #f0f4ff;
-  border-left: 4px solid #667eea;
+  background: rgb(240, 238, 238);
+  border-left: 4px solid var(--title-color);
   padding: 15px;
   margin-bottom: 15px;
   border-radius: 5px;
 }
 
 .info-item strong {
-  color: #667eea;
+  color: var(--title-color);
   display: block;
   margin-bottom: 8px;
   font-size: 1.05em;
@@ -883,7 +883,7 @@ body {
 
 .drug-name {
   font-weight: bold;
-  color: #667eea;
+  color: var(--title-color);
   font-size: 1.1em;
   margin-bottom: 5px;
 }
