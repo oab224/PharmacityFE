@@ -1,10 +1,11 @@
-import React from 'react';
-import { Package, AlertCircle, CheckCircle, X } from 'lucide-react';
-import { PrescriptionInfo } from '../types';
+import React from "react";
+import { Package, AlertCircle, CheckCircle, X } from "lucide-react";
+import { PrescriptionInfo } from "../types";
+import { Button } from "../ui/button";
 
 interface ResultSectionProps {
   transcript: string;
-  prescriptionInfo: PrescriptionInfo | null;
+  prescriptionInfo: PrescriptionInfo[] | null;
   warnings: string[];
   savePrescription: () => void;
   clearCurrent: () => void;
@@ -31,23 +32,27 @@ const ResultSection: React.FC<ResultSectionProps> = ({
           {prescriptionInfo && (
             <div className="prescription-info">
               {/* Patient Info */}
-              {prescriptionInfo.patients && prescriptionInfo.patients.length > 0 && (
-                <div className="info-item patient-info">
-                  <strong>👤 Bệnh nhân:</strong>
-                  <div>{prescriptionInfo.patients.join(', ')}</div>
-                </div>
-              )}
+              {/* {prescriptionInfo.patients &&
+                prescriptionInfo.patients.length > 0 && (
+                  <div className="info-item patient-info">
+                    <strong>👤 Bệnh nhân:</strong>
+                    <div>{prescriptionInfo.patients.join(", ")}</div>
+                  </div>
+                )} */}
 
               {/* Drugs */}
-              {prescriptionInfo.drugs && prescriptionInfo.drugs.length > 0 && (
+              {prescriptionInfo && (
                 <div className="info-item drugs-info">
                   <strong>💊 Thuốc kê đơn:</strong>
-                  {prescriptionInfo.drugs.map((drug, idx) => (
+                  {prescriptionInfo.map((drug, idx) => (
                     <div key={idx} className="drug-item">
                       <div className="drug-name">{drug.name}</div>
+                      <div className="drug-dosage">{drug.dosage}</div>
                       <div className="drug-details">
-                        Số lượng: {drug.quantity || '?'} {drug.unit || '?'}
-                        {drug.dosage && <span className="drug-dosage"> ({drug.dosage})</span>}
+                        Số lượng: {drug.quantity || "?"} {drug.unit || "?"}
+                        {drug.dosage && (
+                          <span className="drug-dosage"> ({drug.dosage})</span>
+                        )}
                       </div>
                     </div>
                   ))}
@@ -62,7 +67,9 @@ const ResultSection: React.FC<ResultSectionProps> = ({
                     Cảnh báo:
                   </div>
                   {warnings.map((warning, idx) => (
-                    <div key={idx} className="warning-item">• {warning}</div>
+                    <div key={idx} className="warning-item">
+                      • {warning}
+                    </div>
                   ))}
                 </div>
               )}

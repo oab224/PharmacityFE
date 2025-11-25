@@ -14,11 +14,11 @@ export interface Product {
 }
 
 export interface PrescriptionInfo {
-  raw_text: string;
-  drugs: Drug[];
-  patients: number[];
-  notes: string[];
-  products?: Product[]; // Add products field
+  dosage: string | null;
+  matched_text: string | null;
+  name: string | null;
+  quantity: number;
+  unit: string | null;
 }
 
 export interface TranscriptionResponse {
@@ -34,7 +34,7 @@ export interface TranscriptionResponse {
 
 export interface PrescriptionRecord {
   text: string;
-  prescription_info: PrescriptionInfo;
+  prescription_info: PrescriptionInfo[];
   warnings: string[];
   timestamp: string;
   saved_at?: string;
@@ -66,4 +66,4 @@ export interface PrescriptionsResponse {
   error?: string;
 }
 
-export type ConnectionStatus = 'connecting' | 'connected' | 'error';
+export type ConnectionStatus = "connecting" | "connected" | "error";
