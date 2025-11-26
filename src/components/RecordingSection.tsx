@@ -1,5 +1,5 @@
-import React from "react";
-import { Mic, Square, Loader } from "lucide-react";
+import React, { useState } from "react";
+import { Mic, Square, Loader, HelpCircle } from "lucide-react";
 
 interface RecordingSectionProps {
   isRecording: boolean;
@@ -10,6 +10,7 @@ interface RecordingSectionProps {
   stopRecording: () => void;
   clearCurrent: () => void;
   formatTime: (seconds: number) => string;
+  onTextInput: (text: string) => void;
 }
 
 const RecordingSection: React.FC<RecordingSectionProps> = ({
@@ -21,12 +22,48 @@ const RecordingSection: React.FC<RecordingSectionProps> = ({
   stopRecording,
   clearCurrent,
   formatTime,
+  onTextInput,
 }) => {
+  const [textInput, setTextInput] = useState("");
+  const [showGuide, setShowGuide] = useState(false);
+
+  const handleTextSubmit = () => {
+    if (textInput.trim()) {
+      onTextInput(textInput.trim());
+      setTextInput("");
+    }
+  };
+
+  const handleKeyPress = (e: React.KeyboardEvent) => {
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault();
+      handleTextSubmit();
+    }
+  };
+
   return (
     <div className="card">
       <h2 className="card-title">
         <Mic className="icon" />
         Ghi Âm
+        <div 
+          className="guide-icon-wrapper"
+          onMouseEnter={() => setShowGuide(true)}
+          onMouseLeave={() => setShowGuide(false)}
+        >
+          <HelpCircle className="guide-icon" size={20} />
+          {showGuide && (
+            <div className="guide-tooltip">
+              <div className="guide-title">Hướng dẫn:</div>
+              <ul className="guide-list">
+                <li>Nhấn micro để ghi âm</li>
+                <li>Nói rõ: "Paracetamol 10 viên BN số 5"</li>
+                <li>Nhấn lại để dừng</li>
+                <li>Hoặc nhập text trực tiếp bên dưới</li>
+              </ul>
+            </div>
+          )}
+        </div>
       </h2>
 
       <div className="recording-section">
@@ -66,13 +103,26 @@ const RecordingSection: React.FC<RecordingSectionProps> = ({
         )}
       </div>
 
-      <div className="guide-box">
-        <div className="guide-title">Hướng dẫn:</div>
-        <ul className="guide-list">
-          <li>Nhấn micro để ghi âm</li>
-          <li>Nói rõ: "Paracetamol 10 viên BN số 5"</li>
-          <li>Nhấn lại để dừng</li>
-        </ul>
+      {/* Phần nhập text */}
+      <div className="text-input-section">
+        <div className="input-group">
+          <textarea
+            value={textInput}
+            onChange={(e) => setTextInput(e.target.value)}
+            onKeyPress={handleKeyPress}
+            placeholder="Hoặc nhập text: Paracetamol 10 viên BN số 5..."
+            disabled={isRecording || isProcessing}
+            rows={3}
+            className="text-input"
+          />
+          <button
+            onClick={handleTextSubmit}
+            disabled={!textInput.trim() || isRecording || isProcessing}
+            className="btn btn-primary"
+          >
+            Thêm
+          </button>
+        </div>
       </div>
     </div>
   );

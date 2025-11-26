@@ -2,6 +2,13 @@ import React from "react";
 import { Package, AlertCircle, CheckCircle, X } from "lucide-react";
 import { PrescriptionInfo } from "../types";
 import { Button } from "../ui/button";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "../ui/select";
 
 interface ResultSectionProps {
   transcript: string;
@@ -9,6 +16,8 @@ interface ResultSectionProps {
   warnings: string[];
   savePrescription: () => void;
   clearCurrent: () => void;
+  validDrug: any;
+  setPrescriptionInfo: any;
 }
 
 const ResultSection: React.FC<ResultSectionProps> = ({
@@ -17,7 +26,11 @@ const ResultSection: React.FC<ResultSectionProps> = ({
   warnings,
   savePrescription,
   clearCurrent,
+  validDrug,
+  setPrescriptionInfo,
 }) => {
+  console.log(prescriptionInfo);
+  console.log(validDrug);
   return (
     <div className="card">
       <h2 className="card-title">
@@ -41,23 +54,63 @@ const ResultSection: React.FC<ResultSectionProps> = ({
                 )} */}
 
               {/* Drugs */}
-              {prescriptionInfo.map((drug, idx) => (
-                <div className="info-item drugs-info">
-                  <strong> Thuốc kê đơn:</strong>
+              {prescriptionInfo.map((drug, idx) => {
+                const matched = validDrug.find(
+                  (item: any) =>
+                    item.name.toLowerCase() === drug.name.toLowerCase() ||
+                    item.aliases?.some(
+                      (alias: string) =>
+                        alias.toLowerCase() === drug.name.toLowerCase()
+                    )
+                );
 
-                  <div key={idx} className="drug-item">
-                    <div className="drug-name">{drug.name}</div>
-                    <div className="drug-dosage">{drug.dosage}</div>
-                    <div className="drug-details">
-                      Số lượng: {drug.quantity || "?"} {drug.unit || "?"}
-                      {drug.dosage && (
-                        <span className="drug-dosage"> ({drug.dosage})</span>
-                      )}
+                return (
+                  <div key={idx} className="info-item drugs-info">
+                    <strong>Thuốc kê đơn:</strong>
+
+                    <div className="drug-item">
+                      <div className="drug-name">{drug.name}</div>
+                      <div className="drug-dosage">{drug.dosage}</div>
+
+                      <div className="drug-details flex align-center gap-1">
+                        Số lượng: {drug.quantity}{" "}
+                        {drug.unit == null ? (
+                          <Select
+                            value={drug.unit || ""}
+                            onValueChange={(value) => {
+                              setPrescriptionInfo((prev: any) => {
+                                const updated = [...prev];
+                                updated[idx] = {
+                                  ...updated[idx],
+                                  unit: value,
+                                };
+                                return updated;
+                              });
+                            }}
+                          >
+                            <SelectTrigger className="h-8 w-32">
+                              <SelectValue placeholder="Chọn đơn vị" />
+                            </SelectTrigger>
+
+                            <SelectContent>
+                              {matched?.units?.map((u: string, i: number) => (
+                                <SelectItem key={i} value={u}>
+                                  {u}
+                                </SelectItem>
+                              ))}
+                            </SelectContent>
+                          </Select>
+                        ) : (
+                          drug.unit
+                        )}
+                        {drug.dosage && (
+                          <span className="drug-dosage"> ({drug.dosage})</span>
+                        )}
+                      </div>
                     </div>
                   </div>
-                </div>
-              ))}
-
+                );
+              })}
               {/* Warnings */}
               {warnings && warnings.length > 0 && (
                 <div className="warnings">

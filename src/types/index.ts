@@ -11,12 +11,13 @@ export interface Product {
   original_name: string;
   quantity: number;
   type: string;
+
 }
 
 export interface PrescriptionInfo {
   dosage: string | null;
   matched_text: string | null;
-  name: string | null;
+  name: string;
   quantity: number;
   unit: string | null;
 }
