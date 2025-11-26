@@ -70,7 +70,7 @@ const RecordingSection: React.FC<RecordingSectionProps> = ({
         <button
           onClick={isRecording ? stopRecording : startRecording}
           disabled={isProcessing}
-          className={`mic-button ${isRecording ? "recording" : ""} ${
+          className={`mic-button ""} ${
             isProcessing ? "disabled" : ""
           }`}
         >
@@ -117,7 +117,7 @@ const RecordingSection: React.FC<RecordingSectionProps> = ({
           />
           <button
             onClick={handleTextSubmit}
-            disabled={!textInput.trim() || isRecording || isProcessing}
+            disabled={  isRecording || isProcessing}
             className="btn btn-primary"
           >
             Thêm

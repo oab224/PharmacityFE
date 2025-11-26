@@ -55,61 +55,70 @@ const ResultSection: React.FC<ResultSectionProps> = ({
 
               {/* Drugs */}
               {prescriptionInfo.map((drug, idx) => {
-                const matched = validDrug.find(
-                  (item: any) =>
-                    item.name.toLowerCase() === drug.name.toLowerCase() ||
-                    item.aliases?.some(
-                      (alias: string) =>
-                        alias.toLowerCase() === drug.name.toLowerCase()
-                    )
-                );
+              const matched = validDrug?.find(
+                (item: any) =>
+                  item?.name?.toLowerCase() === drug?.name?.toLowerCase() ||
+                  item?.aliases?.some(
+                    (alias: string) =>
+                      alias?.toLowerCase() === drug?.name?.toLowerCase()
+                  )
+              );
 
-                return (
-                  <div key={idx} className="info-item drugs-info">
-                    <strong>Thuốc kê đơn:</strong>
-                    <div className="drug-item">
-                      <div className="drug-name">{drug?.name}</div>
-                      <div className="drug-dosage">{drug?.dosage}</div>
+              // Lấy giá trị mặc định là phần tử đầu tiên
+              const defaultUnit = matched?.units?.[0] || "";
 
-                      <div className="drug-details flex align-center gap-1">
-                        Số lượng: {drug?.quantity}{" "}
-                        {drug?.unit == null ? (
-                          <Select
-                            value={drug?.unit || ""}
-                            onValueChange={(value) => {
-                              setPrescriptionInfo((prev: any) => {
-                                const updated = [...prev];
-                                updated[idx] = {
-                                  ...updated[idx],
-                                  unit: value,
-                                };
-                                return updated;
-                              });
-                            }}
-                          >
-                            <SelectTrigger className="h-8 w-32">
-                              <SelectValue placeholder="Chọn đơn vị" />
-                            </SelectTrigger>
+              return (
+                <div key={idx} className="info-item drugs-info">
+                  <strong>Thuốc kê đơn:</strong>
+                  <div className="drug-item">
+                    <div className="drug-name">{drug?.name}</div>
+                    <div className="drug-dosage">{drug?.dosage}</div>
 
-                            <SelectContent>
-                              {matched?.units?.map((u: string, i: number) => (
-                                <SelectItem key={i} value={u}>
-                                  {u}
-                                </SelectItem>
-                              ))}
-                            </SelectContent>
-                          </Select>
-                        ) : (
-                          drug?.unit
-                        )}
-                        {drug.dosage && (
-                          <span className="drug-dosage"> ({drug.dosage})</span>
-                        )}
-                      </div>
+                    <div className="drug-details flex align-center gap-1">
+                      Số lượng: {drug?.quantity}{" "}
+                      {drug?.unit == null ? (
+                        <Select
+                          value={drug?.unit || defaultUnit}
+                          onValueChange={(value) => {
+                            setPrescriptionInfo((prev: any) => {
+                              const updated = [...prev];
+                              updated[idx] = {
+                                ...updated[idx],
+                                unit: value,
+                              };
+                              return updated;
+                            });
+                          }}
+                        >
+                          <SelectTrigger className="h-9 w-36 border-2 border-gray-300 hover:border-blue-500 transition-colors rounded-md shadow-sm">
+                            <SelectValue placeholder="Chọn đơn vị" />
+                          </SelectTrigger>
+
+                          <SelectContent className="max-h-60 overflow-auto">
+                            {matched?.units?.map((u: string, i: number) => (
+                              <SelectItem 
+                                key={i} 
+                                value={u}
+                                className="cursor-pointer hover:bg-blue-50 transition-colors"
+                              >
+                                {u}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                      ) : (
+                        <span className="inline-block px-2 py-1 bg-gray-100 rounded-md text-sm font-medium">
+                          {drug?.unit}
+                        </span>
+                      )}
+                      {drug.dosage && (
+                        <span className="drug-dosage text-gray-600"> ({drug.dosage})</span>
+                      )}
                     </div>
                   </div>
-                );
-              })}
+                </div>
+              );
+            })}
               {/* Warnings */}
               {warnings && warnings.length > 0 && (
                 <div className="warnings">
