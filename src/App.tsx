@@ -264,7 +264,7 @@ const App: React.FC = () => {
       const result = await response.json();
 
       if (result.success) {
-        alert("✅ Đã lưu đơn thuốc thành công!");
+        alert("Đã lưu đơn thuốc thành công!");
         clearCurrent();
         loadHistory();
         loadStats();

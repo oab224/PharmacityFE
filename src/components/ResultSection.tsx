@@ -67,16 +67,15 @@ const ResultSection: React.FC<ResultSectionProps> = ({
                 return (
                   <div key={idx} className="info-item drugs-info">
                     <strong>Thuốc kê đơn:</strong>
-
                     <div className="drug-item">
-                      <div className="drug-name">{drug.name}</div>
-                      <div className="drug-dosage">{drug.dosage}</div>
+                      <div className="drug-name">{drug?.name}</div>
+                      <div className="drug-dosage">{drug?.dosage}</div>
 
                       <div className="drug-details flex align-center gap-1">
-                        Số lượng: {drug.quantity}{" "}
-                        {drug.unit == null ? (
+                        Số lượng: {drug?.quantity}{" "}
+                        {drug?.unit == null ? (
                           <Select
-                            value={drug.unit || ""}
+                            value={drug?.unit || ""}
                             onValueChange={(value) => {
                               setPrescriptionInfo((prev: any) => {
                                 const updated = [...prev];
@@ -101,7 +100,7 @@ const ResultSection: React.FC<ResultSectionProps> = ({
                             </SelectContent>
                           </Select>
                         ) : (
-                          drug.unit
+                          drug?.unit
                         )}
                         {drug.dosage && (
                           <span className="drug-dosage"> ({drug.dosage})</span>
