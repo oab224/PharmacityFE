@@ -30,9 +30,12 @@ export interface TranscriptionResponse {
   confidence: number;
   timestamp: string;
   error?: string;
+  audio_id?:string | undefined;
   products?: Product[]; // Add products field
 }
-
+export interface AudioData {
+   audio_id?:string;
+}
 export interface PrescriptionRecord {
   text: string;
   prescription_info: PrescriptionInfo[];
@@ -40,6 +43,7 @@ export interface PrescriptionRecord {
   timestamp: string;
   saved_at?: string;
   confidence?: number;
+  audio_id?:string;
 }
 
 export interface Stats {

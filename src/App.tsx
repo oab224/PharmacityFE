@@ -27,6 +27,7 @@ const App: React.FC = () => {
   const [prescriptionInfo, setPrescriptionInfo] = useState<
     PrescriptionInfo[] | null
   >(null);
+  const [audio,setAudio] = useState<string | null>(null)
   const [warnings, setWarnings] = useState<string[]>([]);
   const [isProcessing, setIsProcessing] = useState<boolean>(false);
   const [history, setHistory] = useState<PrescriptionRecord[]>([]);
@@ -202,7 +203,7 @@ const App: React.FC = () => {
 
       const data: TranscriptionResponse = await response.json();
       if (data.success) {
-        setTranscript(data.text);
+        setTranscript(data?.text);
         setPrescriptionInfo(data.prescription_info as any);
         setWarnings(data.warnings);
       } else {

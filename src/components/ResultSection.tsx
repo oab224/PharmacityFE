@@ -29,8 +29,6 @@ const ResultSection: React.FC<ResultSectionProps> = ({
   validDrug,
   setPrescriptionInfo,
 }) => {
-  console.log(prescriptionInfo);
-  console.log(validDrug);
   return (
     <div className="card">
       <h2 className="card-title">
@@ -74,40 +72,37 @@ const ResultSection: React.FC<ResultSectionProps> = ({
                     <div className="drug-name">{drug?.name}</div>
                     <div className="drug-dosage">{drug?.dosage}</div>
 
-                    <div className="drug-details flex align-center gap-1">
+                    <div className="drug-details flex align-center ">
                       Số lượng: {drug?.quantity}{" "}
                       {drug?.unit == null ? (
-                        <Select
-                          value={drug?.unit || defaultUnit}
-                          onValueChange={(value) => {
-                            setPrescriptionInfo((prev: any) => {
-                              const updated = [...prev];
-                              updated[idx] = {
-                                ...updated[idx],
-                                unit: value,
-                              };
-                              return updated;
-                            });
-                          }}
-                        >
-                          <SelectTrigger className="h-9 w-36 border-2 border-gray-300 hover:border-blue-500 transition-colors rounded-md shadow-sm">
-                            <SelectValue placeholder="Chọn đơn vị" />
-                          </SelectTrigger>
+                       <select
+                       
+                        value={drug?.unit || defaultUnit}
+                        onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
+                          const newUnit = e.target.value;
 
-                          <SelectContent className="max-h-60 overflow-auto">
-                            {matched?.units?.map((u: string, i: number) => (
-                              <SelectItem 
-                                key={i} 
-                                value={u}
-                                className="cursor-pointer hover:bg-blue-50 transition-colors"
-                              >
-                                {u}
-                              </SelectItem>
-                            ))}
-                          </SelectContent>
-                        </Select>
+                          setPrescriptionInfo((prev: any) => {
+                            const updated = [...prev];
+                            updated[idx] = {
+                              ...updated[idx],
+                              unit: newUnit,
+                            };
+                            return updated;
+                          });
+                        }}
+                      >
+                        {matched?.units?.map((u: string, i: number) => (
+                          <option 
+                            key={i} 
+                            value={u}
+                            className="rounded-sm cursor-pointer hover:bg-blue-50 transition-colors"
+                          >
+                            {u}
+                          </option>
+                        ))}
+                      </select>
                       ) : (
-                        <span className="inline-block px-2 py-1 bg-gray-100 rounded-md text-sm font-medium">
+                        <span className="ml-[2px]">
                           {drug?.unit}
                         </span>
                       )}
